@@ -1,17 +1,42 @@
-# Korean Alphabet Click
+# Create React Express App
 
-### Overview
+## About This Boilerplate
 
-This app is a memory game with React. This project required breaking up the application's UI into components, manage component state, and respond to user events. It's made by following up the instruction below: 
+This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
 
-1. Thisis a React application.
+The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
 
-2. The application renders different images to the screen. Each image listens for click events.
+## Starting the app locally
 
-3. The application tracks the user's score. The user's score should be incremented when clicking an image for the first time. The user's score should be reset to 0 if the same image is clicked more than once.
+Start by installing front and backend dependencies. While in this directory, run the following commands:
 
-4. Every time an image is clicked, the images rendered to the page should shuffle themselves in a random order.
+```
+yarn install
+cd client
+yarn install
+cd ..
+``
 
-5. After an incorrect guess, the game restarts.
+After both installations complete, run the following command in your terminal:
 
-![Image](public/images/screenshot.PNG)
+```
+yarn start
+```
+
+That's it, your app should be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+
+## Deployment (Heroku)
+
+After confirming that you have an up to date git repository and a Heroku app created, complete the following:
+
+1. Build the React app for production by running the following command:
+
+```
+yarn build
+```
+
+2. Add and commit all changes to git
+
+3. Push to Heroku
+
+If all previous steps were followed correctly, your application should be deployed to Heroku!

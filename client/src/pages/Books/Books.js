@@ -57,7 +57,9 @@ class Books extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
+          <Col size="md-1">
+          </Col>
+          <Col size="md-10">
             <Jumbotron>
               <h1>Search for NYT Articles</h1>
             </Jumbotron>
@@ -74,21 +76,19 @@ class Books extends Component {
                 name="author"
                 placeholder="Author (required)"
               />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
               <FormBtn
                 disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Search for Articles
               </FormBtn>
             </form>
           </Col>
-          <Col size="md-6 sm-12">
+        </Row>
+        <Row>
+          <Col size="md-1">
+          </Col>
+          <Col size="md-10 sm-12">
             <Jumbotron>
               <h1>NYT Articles Found</h1>
             </Jumbotron>

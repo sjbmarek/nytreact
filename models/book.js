@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
-  title: { type: String, required: true },
-  author: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
+  url: { type: String, required: true, unique: true },
+  // author: { type: String, required: true },
   // synopsis: String,
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
 
   noteRef: [
   {
@@ -13,6 +14,7 @@ const bookSchema = new Schema({
     ref: "Note"
   }
   ]
+  
 });
 
 const Book = mongoose.model("Book", bookSchema);

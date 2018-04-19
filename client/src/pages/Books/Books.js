@@ -5,14 +5,22 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, FormBtn } from "../../components/Form";
 
 class Books extends Component {
   state = {
     books: [],
     title: "",
-    author: "",
-    synopsis: ""
+    url: "",
+    search: "",
+    startDate: "",
+    endDate: "",
+    deleted: false,
+    results: [],
+    saved: []
+
+    // author: "",
+    // synopsis: ""
   };
 
   componentDidMount() {
@@ -22,9 +30,13 @@ class Books extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        // this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ saved: res.data, 
+          deleted: false
+           })
+
       )
-      .catch(err => console.log(err));
+      .catch(err => console.log("Error from loadBooks: ",err));
   };
 
   deleteBook = id => {
@@ -34,7 +46,12 @@ class Books extends Component {
   };
 
   handleInputChange = event => {
-    const { name, value } = event.target;
+    const name = event.target.name;
+    let value  = event.target.value;
+    // This grabs the first 4 characters in the field
+    if (name === "startDate" || name === "endDate") {
+      value = value.substring(0, 4);
+    }
     this.setState({
       [name]: value
     });
@@ -42,16 +59,51 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
+    let valid = this.validateDates();
+    if (valid) {
+        this.searchAPI();
     }
   };
+
+  validateDates = () => {
+    let startDate = this.state.startDate;
+    let endDate = this.state.endDate;
+    if (startDate.length < 4 || endDate.length < 4) {
+        alert("please check your dates: year needs to be 4 digits long")
+    }
+    else return true
+  }
+
+
+
+  searchAPI = () => {
+    let search = this.state.search
+    let startDate = this.state.startDate;
+    let endDate = this.state.endDate;
+    let query = "&q=" + search + 
+    "&begin_date=" + 
+    startDate + "0101" +
+    "&end_date=" +  
+    endDate + "1231";
+    console.log("query: " + query);
+
+    API.search(query)
+    .then(res => {this.setState({results: res.data.response.docs})})
+     // console.log("API+++++++++++++++++++++++");
+     // // console.log(this.res);
+     // // console.log(this.state)
+    .catch(err => console.log(err));
+
+    this.setState({
+      search: "",
+      startDate: "",
+      endDate: ""
+    })
+    console.log("API+++++++++++++++++++++++");
+    console.log(this.state);
+  };
+
+
 
   render() {
     return (
@@ -65,19 +117,27 @@ class Books extends Component {
             </Jumbotron>
             <form>
               <Input
-                value={this.state.title}
+                value={this.state.search}
                 onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
+                name="search"
+                placeholder="Search Topic (required)"
               />
               <Input
-                value={this.state.author}
+                value={this.state.startDate}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                name="startDate"
+                maxLength="4"
+                placeholder="Start Year (YYYY required)"
+              />
+              <Input
+                value={this.state.endDate}
+                onChange={this.handleInputChange}
+                name="endDate"
+                maxLength="4"
+                placeholder="End Year (YYYY required)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.search && this.state.startDate && this.state.endDate)}
                 onClick={this.handleFormSubmit}
               >
                 Search for Articles

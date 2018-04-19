@@ -3,9 +3,7 @@ const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
   title: { type: String, required: true, unique: true },
-  // url: { type: String, required: true, unique: true },
-  author: { type: String, required: true },
-  synopsis: String,
+  url: { type: String, required: true, unique: true },
   date: { type: Date, default: Date.now },
 
   noteRef: [

@@ -172,20 +172,27 @@ class Books extends Component {
                 <List>
                   {this.state.results.map((oneitem, index) => (
                     
-
+                    
                     <ListItem
-                      key={index}
+                      key={this.state.results[index]._id}
                       nytid={this.state.results[index]._id}
                       title={this.state.results[index].headline.main}
-                      url={this.state.results[index].web_url}
-                    />
+                      url={this.state.results[index].web_url}>
+                
+                      <DeleteBtn onClick={() => this.deleteBook(this.state.results[index]._id)} />
+                    </ListItem>
+                    
+                    
                   ))}
+                
                 </List>
+
             ) : (
               <h3>No Results to Display</h3>
             )}
           </Col>
         </Row>
+         
       </Container>
     );
   }

@@ -30,4 +30,5 @@
 
 .list-overflow-container li:last-child {
   border-bottom: none;
+  /*margin-bottom: 5px;*/
 }

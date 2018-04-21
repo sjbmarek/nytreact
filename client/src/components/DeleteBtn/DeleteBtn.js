@@ -7,14 +7,11 @@ const DeleteBtn = props => (
   // <span className="delete-btn" {...props}>
   //   ✗
   // </span>
-  <div>
-	  <button type="button" className="ml-1 delete-btn btn btn-primary" {...props}>
+    <span>
+	  <button type="button" className="mr-1 btn-danger ml-1 delete-btn btn"{...props}>
 	    Delete
-	  </button>
-	  <button type="button" className="save-btn btn btn-primary" {...props}>
-	    Save
-	  </button>  
-  </div>
+	  </button> 
+  </span>
 
 );
 
